@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server-Sent Events</title>
+  </head>
+  <body>
+    <div id="price-block"></div>
+    <form>
+      <input id="stop" type="button" value="Stop stream" />
+    </form>
+    <script>
+      const url = "http://127.0.0.1:9000/stream";
+      const eventSource = new EventSource(url);
+      const priceElem = document.getElementById("price-block");
+      const stopBtn = document.getElementById("stop");
+
+      eventSource.onmessage = (message) => {
+        priceElem.innerText = `${message.data}`;
+      };
+
+      stopBtn.addEventListener("click", () => {
+        eventSource.close();
+      });
+    </script>
+  </body>
+</html>
